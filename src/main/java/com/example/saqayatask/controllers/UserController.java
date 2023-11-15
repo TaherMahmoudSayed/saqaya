@@ -20,16 +20,21 @@ import java.security.NoSuchAlgorithmException;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    // Add a new user
     @PostMapping("/")
-    public ResponseEntity<?> addUser(@RequestBody @Valid UserDto userDto)  {
-        RegisterResponse response=userService.register(userDto);
+    public ResponseEntity<?> addUser(@RequestBody @Valid UserDto userDto) {
+        // Call the register method from the UserService to register the user
+        RegisterResponse response = userService.register(userDto);
+        // Return a response entity with the registered user's response
         return ResponseEntity.ok(response);
     }
 
+    // Get a user by ID
     @GetMapping("/{Id}")
-
-    public ResponseEntity<?> addUser(@PathVariable String Id){
-        UserDto dto=userService.getUser(Id);
+    public ResponseEntity<?> getUser(@PathVariable String Id) {
+        // Call the getUser method from the UserService to retrieve the user with the given ID
+        UserDto dto = userService.getUser(Id);
+        // Return a response entity with the retrieved user's DTO
         return ResponseEntity.ok(dto);
     }
 }

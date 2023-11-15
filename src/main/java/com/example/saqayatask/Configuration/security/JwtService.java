@@ -52,7 +52,7 @@ public class JwtService {
         try {
             String token = Jwts
                     .builder()
-                    .setClaims(claims)// here in claims you can add whatever claims or credentials you want.{"Role":["user","manager"]}
+                    .setClaims(claims)// here in claims you can add whatever claims or credentials you want.{"Role":["user"]}
                     .setSubject(userDetails.getUsername())
                     .setIssuedAt(new Date(System.currentTimeMillis()))
                     .setExpiration(new Date(System.currentTimeMillis() + (1000 * 60 * 60 * 1)))

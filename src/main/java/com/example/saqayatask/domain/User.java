@@ -23,13 +23,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User implements UserDetails {
-
-    boolean marketingConsent;
     @Id
     private String id;
     private String firstName;
     private String lastName;
     private String email;
+    boolean marketingConsent;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

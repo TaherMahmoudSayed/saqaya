@@ -22,13 +22,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
+    // Exception handler for DuplicatedRecordEX
     @ExceptionHandler(value = DuplicatedRecordEX.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ResponseEntity<Object> duplicatedRecordEX(Exception ex){
-        ErrorResponse response= ErrorResponse.builder()
+    public ResponseEntity<Object> duplicatedRecordEX(Exception ex) {
+        // Create an ErrorResponse object with custom error details
+        ErrorResponse response = ErrorResponse.builder()
                 .success(false)
                 .dateTime(LocalDateTime.now())
                 .details(Arrays.asList(ex.getMessage()))
@@ -36,22 +39,27 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .build();
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
+
+    // Exception handler for RecordNotFoundEX
     @ExceptionHandler(value = RecordNotFoundEX.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<Object> recordNotFound(Exception ex){
-        ErrorResponse response= ErrorResponse.builder()
+    public ResponseEntity<Object> recordNotFound(Exception ex) {
+        // Create an ErrorResponse object with custom error details
+        ErrorResponse response = ErrorResponse.builder()
                 .success(false)
                 .dateTime(LocalDateTime.now())
                 .details(Arrays.asList(ex.getMessage()))
                 .errorMessage(ex.getLocalizedMessage())
                 .build();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-
     }
+
+    // Exception handler for AuthenticationException
     @ExceptionHandler(value = AuthenticationException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ResponseEntity<Object> authenticationException(Exception ex){
-        ErrorResponse response= ErrorResponse.builder()
+    public ResponseEntity<Object> authenticationException(Exception ex) {
+        // Create an ErrorResponse object with custom error details
+        ErrorResponse response = ErrorResponse.builder()
                 .success(false)
                 .dateTime(LocalDateTime.now())
                 .details(Arrays.asList(ex.getMessage()))
@@ -59,11 +67,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .build();
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
+
+    // Exception handler for DataIntegrityViolationException
     @ExceptionHandler(value = DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ResponseEntity<Object> dataIntegrityViolationException(DataIntegrityViolationException ex){
-
-        ErrorResponse response= ErrorResponse.builder()
+    public ResponseEntity<Object> dataIntegrityViolationException(DataIntegrityViolationException ex) {
+        // Create an ErrorResponse object with custom error details
+        ErrorResponse response = ErrorResponse.builder()
                 .success(false)
                 .dateTime(LocalDateTime.now())
                 .details(Arrays.asList(ex.getMessage()))
@@ -71,6 +81,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .build();
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
+
+    // Override the handleMethodArgumentNotValid method for handling validation errors
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
@@ -88,11 +100,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .success(false)
                 .dateTime(LocalDateTime.now())
                 .details(errors)
-                .errorMessage(ex.getLocalizedMessage())
+                .errorMessage("incorrect inputs")
                 .build();
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(error);
     }
+
+
 }
+
+
+

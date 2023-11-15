@@ -21,26 +21,33 @@ public class SecurityBeanConfig {
 
     @Bean
     public UserDetailsService userDetailsService(){
-        //userDetailsService called functional interface, that's why we can use lambda expression with it
+        // The UserDetailsService is a functional interface, allowing us to use a lambda expression with it
         return email ->
                 userRepository.findByEmail(email).orElse(null);
     }
     @Bean
     public AuthenticationProvider authenticationProvider(){
-        DaoAuthenticationProvider daoAuthenticationProvider=new DaoAuthenticationProvider();
+        // Create a new instance of DaoAuthenticationProvider
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        // Set the UserDetailsService for the DaoAuthenticationProvider
         daoAuthenticationProvider.setUserDetailsService(userDetailsService());
+        // Set the PasswordEncoder for the DaoAuthenticationProvider
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        // Return the configured DaoAuthenticationProvider as an AuthenticationProvider
         return daoAuthenticationProvider;
     }
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        // Return the AuthenticationManager from the AuthenticationConfiguration
         return config.getAuthenticationManager();
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
-      return new BCryptPasswordEncoder();
+        // Create and return a new instance of BCryptPasswordEncoder as the PasswordEncoder
+        return new BCryptPasswordEncoder();
     }
-
 
 
 }
